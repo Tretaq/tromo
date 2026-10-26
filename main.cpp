@@ -38,9 +38,9 @@ int main() {
 
         switch (key) {
             case 'q': running = false; break;
-            case KEY_UP: case 'w': case 'h': --y; break;
+            case KEY_UP: case 'w': case 'k': --y; break;
             case KEY_DOWN: case 's': case 'j': ++y; break;
-            case KEY_LEFT: case 'a': case 'k': --x; break;
+            case KEY_LEFT: case 'a': case 'h': --x; break;
             case KEY_RIGHT: case 'd': case 'l': ++x; break;
             default: break;
         }

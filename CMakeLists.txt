@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED  ON)
 
 find_package(Curses REQUIRED)
 
-add_executable(tromo main.cpp)
+add_executable(tromo main.cpp
+        map.cpp
+        map.hpp)
 target_include_directories(tromo PRIVATE ${CURSES_INCLUDE_DIR})
 target_link_libraries(tromo PRIVATE ${CURSES_LIBRARIES})

@@ -1,8 +1,10 @@
+#include <algorithm>
 #include <ncurses.h>
-
+#include <iostream>
 class Terminal {
     public:
     Terminal() {
+
         initscr();
         cbreak();
         noecho();
@@ -19,11 +21,14 @@ class Terminal {
 int main() {
     Terminal terminal;
 
+
     int x = 10;
     int y = 5;
     bool running = true;
 
     while (running) {
+        int rows, cols;
+        getmaxyx(stdscr, rows, cols);
         erase();
         mvaddch(y, x, '@');
         refresh();
@@ -32,12 +37,14 @@ int main() {
 
         switch (key) {
             case 'q': running = false; break;
-            case KEY_UP: --y; break;
-            case KEY_DOWN: ++y; break;
-            case KEY_LEFT: --x; break;
-            case KEY_RIGHT: ++x; break;
+            case KEY_UP: case 'w': case 'h': --y; break;
+            case KEY_DOWN: case 's': case 'j': ++y; break;
+            case KEY_LEFT: case 'a': case 'k': --x; break;
+            case KEY_RIGHT: case 'd': case 'l': ++x; break;
             default: break;
         }
+        x = std::clamp(x, 0, cols -1);
+        y = std::clamp(y, 0, rows -1);
     }
     return 0;
 

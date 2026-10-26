@@ -30,6 +30,7 @@ int main() {
         int rows, cols;
         getmaxyx(stdscr, rows, cols);
         erase();
+        mvprintw(0,0, "x=%d y=%d", x, y);
         mvaddch(y, x, '@');
         refresh();
 

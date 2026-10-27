@@ -21,10 +21,19 @@ class Terminal {
     Terminal& operator=(const Terminal&) = delete;
  };
 
+char tileIs(Tile tile) {
+    if (tile == Tile::Floor) {
+        return '.';
+    } else if (tile == Tile::Water) {
+        return '~';
+    } else {
+        return '#';
+    }
+}
 void drawMap(const Map& map) {
     for (int y = 0; y < map.height(); ++y) {
         for (int x = 0 ; x < map.width(); ++x) {
-            mvaddch(y,x,map.at(x, y) == Tile::Wall ? '#' : '.');
+            mvaddch(y,x,tileIs(map.at(x, y)));
         }
     }
 }
@@ -32,15 +41,9 @@ int main() {
     Terminal terminal;
 
     Map map(80,24);
-    // for (int y = 5; y < 15; ++y) {
-    //     for (int x = 10 ; x< 40; ++x) {
-    //         map.set(x,y, Tile::Floor);
-    //     }
-    // }
     map.fillRect(10,5,30,10,Tile::Floor);
-
     map.set(20, 8, Tile::Wall);
-
+    map.fillRect(26,13,2,2,Tile::Water);
     int x = 12;
     int y = 7;
     bool running = true;

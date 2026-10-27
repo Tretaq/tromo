@@ -16,4 +16,13 @@ namespace {
     void carveVertical(Map& map, int y1, int y2, int x) {
         map.fillRect(x,std::min(y1,y2), 1, std::abs(y2 - y1) + 1, Tile::Floor);
     }
+    void connect(Map &map, std::mt19937 rng, Point a, Point b) {
+        if (randInt(rng, 0, 1) == 0) {
+            carveHorizontal(map, a.x, b.x,a.y);
+            carveVertical(map, a.y, b.y , b.x);
+        } else {
+            carveHorizontal(map, a.y, b.y,a.x);
+            carveVertical(map, a.x, b.x , b.y);
+        }
+    }
 }

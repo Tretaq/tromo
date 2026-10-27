@@ -1,7 +1,3 @@
-//
-// Created by treta on 10/26/26.
-//
-
 #include "map.hpp"
 
 Map::Map(int width, int height): width_(width), height_(height), tiles_(width * height, Tile::Wall){}
@@ -22,4 +18,12 @@ void Map::set(int x, int y, Tile tile) {
 
 bool Map::isWalkable(int x, int y) const {
     return inBounds(x,y) && at(x,y) == Tile::Floor;
+}
+
+void Map::fillRect(int x, int y, int w, int h, Tile tile) {
+    for (int row = y; row < y + h; ++row) {
+        for (int col = x; col < x+w; ++col) {
+            set(col, row, tile);
+        }
+    }
 }

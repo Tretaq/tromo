@@ -32,11 +32,12 @@ int main() {
     Terminal terminal;
 
     Map map(80,24);
-    for (int y = 5; y < 15; ++y) {
-        for (int x = 10 ; x< 40; ++x) {
-            map.set(x,y, Tile::Floor);
-        }
-    }
+    // for (int y = 5; y < 15; ++y) {
+    //     for (int x = 10 ; x< 40; ++x) {
+    //         map.set(x,y, Tile::Floor);
+    //     }
+    // }
+    map.fillRect(10,5,30,10,Tile::Floor);
 
     map.set(20, 8, Tile::Wall);
 

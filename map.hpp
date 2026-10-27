@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-enum class Tile { Wall, Floor};
+enum class Tile { Wall, Floor, Water};
 
 class Map {
 public:
@@ -14,6 +14,7 @@ public:
     Tile at(int x, int y) const;
     void set(int x, int y, Tile tile);
     bool isWalkable(int x, int y) const;
+    void fillRect(int x, int y , int w , int h, Tile tile);
 private:
     int index(int x, int y) const {return y * width_ + x;} // we use a long vector so the logic is x = wehere on x axis + y * width so which row
 

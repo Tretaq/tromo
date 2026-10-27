@@ -8,6 +8,9 @@ find_package(Curses REQUIRED)
 
 add_executable(tromo main.cpp
         map.cpp
-        map.hpp)
+        map.hpp
+        rect.hpp
+        dungeon.hpp
+        dungeon.cpp)
 target_include_directories(tromo PRIVATE ${CURSES_INCLUDE_DIR})
 target_link_libraries(tromo PRIVATE ${CURSES_LIBRARIES})

@@ -37,7 +37,7 @@ void drawMap(const Map& map) {
     }
 }
 int main(int argc, char** argv) {
-    Terminal terminal;
+
     std::random_device rnd;
     unsigned seed = rnd();
     if (argc > 1) {
@@ -50,6 +50,7 @@ int main(int argc, char** argv) {
     }
     std::mt19937 rng(seed);
     Map map(80,24);
+    Terminal terminal;
     Point start = generateDungeon(map, rng);
     int x = start.x;
     int y = start.y;
@@ -73,7 +74,7 @@ int main(int argc, char** argv) {
             case KEY_DOWN: case 's': case 'j': dy = 1; break;
             case KEY_LEFT: case 'a': case 'h': dx = -1; break;
             case KEY_RIGHT: case 'd': case 'l': dx = 1; break;
-            case 'r': map = Map(80,24); start = generateDungeon(map, rng); x = start.x; y = start.y;break;
+            case 'r': map = Map(80,24);seed = rnd(), rng.seed(seed);map = Map(80,24); start = generateDungeon(map, rng); x = start.x; y = start.y;break;
             default: break;
         }
         if (map.isWalkable(x + dx, y + dy)) {

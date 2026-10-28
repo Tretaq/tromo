@@ -36,10 +36,18 @@ void drawMap(const Map& map) {
         }
     }
 }
-int main() {
+int main(int argc, char** argv) {
     Terminal terminal;
     std::random_device rnd;
     unsigned seed = rnd();
+    if (argc > 1) {
+        try {
+            seed = std::stoul(argv[1]);
+        }catch (const std::invalid_argument& e) {
+            std::cerr << "Error: Given argument '" << argv[1] << "' is not a number! " <<  "\n";
+        }
+
+    }
     std::mt19937 rng(seed);
     Map map(80,24);
     Point start = generateDungeon(map, rng);

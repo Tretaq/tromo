@@ -26,3 +26,37 @@ namespace {
         }
     }
 }
+
+Point generateDungeon(Map &map, std::mt19937 &rng)
+{
+    constexpr int maxRooms = 12;
+    constexpr int attempts = 60;
+    constexpr int minW = 4, maxw = 12, minH = 4, maxh = 12;
+
+    std::vector<Rect> rooms;
+    for (int i = 0; i < attempts && static_cast<int>(rooms.size()) < maxRooms; ++i)
+    {
+        int w = randInt(rng, minW, maxw);
+        int h = randInt(rng, minH, maxh);
+        int x = randInt(rng,1, map.width()-w-1);
+        int y = randInt(rng,1,map.height()-h-1);
+        Rect room = Rect(x,y,w,h);
+
+        bool overlaps = std::any_of(rooms.begin(), rooms.end(),
+            [&](const Rect other)
+            {
+                return room.intersects(other); });
+
+        if (!overlaps)
+        {
+            continue;
+        }
+        map.fillRect(room.w,room.y,room.w,room.h,Tile::Floor);
+        if (!rooms.empty())
+        {
+            connect(map, rng, rooms.back().center(), room.center());
+        }
+        rooms.push_back(room);
+    }
+    return rooms.front().center();
+}

@@ -1,13 +1,13 @@
 #include <algorithm>
 #include <ncurses.h>
 #include <iostream>
-
+#include <random>
+#include "dungeon.hpp"
 #include "map.hpp"
 
 class Terminal {
     public:
     Terminal() {
-
         initscr();
         cbreak();
         noecho();
@@ -38,21 +38,19 @@ void drawMap(const Map& map) {
 }
 int main() {
     Terminal terminal;
-
+    std::random_device rnd;
+    unsigned seed = rnd();
+    std::mt19937 rng(seed);
     Map map(80,24);
-    map.fillRect(10,5,30,10,Tile::Floor);
-    map.set(20, 8, Tile::Wall);
-    map.fillRect(26,13,2,2,Tile::Water);
-    map.fillRect(40,7,15,5,Tile::Floor);
-    map.fillRect(55,5,20,10,Tile::Floor);
-    int x = 12;
-    int y = 7;
+    Point start = generateDungeon(map, rng);
+    int x = start.x;
+    int y = start.y;
     bool running = true;
 
     while (running) {
         erase();
         drawMap(map);
-        mvprintw(0,0, "x=%d y=%d", x, y);
+        mvprintw(0,0, "x=%d y=%d seed=%d", x, y, seed);
         mvaddch(y, x, '@');
         refresh();
 
@@ -67,6 +65,7 @@ int main() {
             case KEY_DOWN: case 's': case 'j': dy = 1; break;
             case KEY_LEFT: case 'a': case 'h': dx = -1; break;
             case KEY_RIGHT: case 'd': case 'l': dx = 1; break;
+            case 'r': map = Map(80,24); start = generateDungeon(map, rng); x = start.x; y = start.y;break;
             default: break;
         }
         if (map.isWalkable(x + dx, y + dy)) {

@@ -16,7 +16,4 @@ struct Rect {
         return x <= other.x + other.w && x + w >= other.x &&
             y <= other.y + other.h && y + h >= other.y;
     }
-    Point generateDungeon(Map& map, std::mt19937 rng) {
-
-    }
 };

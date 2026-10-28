@@ -50,7 +50,7 @@ int main() {
     while (running) {
         erase();
         drawMap(map);
-        mvprintw(0,0, "x=%d y=%d seed=%d", x, y, seed);
+        mvprintw(0,0, "x=%d y=%d seed=%u", x, y, seed);
         mvaddch(y, x, '@');
         refresh();
 

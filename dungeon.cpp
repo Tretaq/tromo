@@ -16,13 +16,13 @@ namespace {
     void carveVertical(Map& map, int y1, int y2, int x) {
         map.fillRect(x,std::min(y1,y2), 1, std::abs(y2 - y1) + 1, Tile::Floor);
     }
-    void connect(Map &map, std::mt19937 rng, Point a, Point b) {
+    void connect(Map &map, std::mt19937& rng, Point a, Point b) {
         if (randInt(rng, 0, 1) == 0) {
             carveHorizontal(map, a.x, b.x,a.y);
             carveVertical(map, a.y, b.y , b.x);
         } else {
-            carveHorizontal(map, a.y, b.y,a.x);
-            carveVertical(map, a.x, b.x , b.y);
+            carveVertical(map, a.y, b.y, a.x);
+            carveHorizontal(map, a.x, b.x, b.y);
         }
     }
 }
@@ -31,7 +31,7 @@ Point generateDungeon(Map &map, std::mt19937 &rng)
 {
     constexpr int maxRooms = 12;
     constexpr int attempts = 60;
-    constexpr int minW = 4, maxw = 12, minH = 4, maxh = 12;
+    constexpr int minW = 4, maxw = 12, minH = 3, maxh = 6;
 
     std::vector<Rect> rooms;
     for (int i = 0; i < attempts && static_cast<int>(rooms.size()) < maxRooms; ++i)
@@ -47,11 +47,11 @@ Point generateDungeon(Map &map, std::mt19937 &rng)
             {
                 return room.intersects(other); });
 
-        if (!overlaps)
+        if (overlaps)
         {
             continue;
         }
-        map.fillRect(room.w,room.y,room.w,room.h,Tile::Floor);
+        map.fillRect(room.x,room.y,room.w,room.h,Tile::Floor);
         if (!rooms.empty())
         {
             connect(map, rng, rooms.back().center(), room.center());

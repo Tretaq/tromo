@@ -4,4 +4,12 @@
 #include "map.hpp"
 #include "rect.hpp"
 
-Point generateDungeon(Map& map, std::mt19937&rng);
+
+
+struct Dungeon
+{
+    Point start;
+    std::vector<Rect> rooms;
+};
+
+Dungeon generateDungeon(Map& map, std::mt19937_64& rng);

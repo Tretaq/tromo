@@ -11,6 +11,8 @@ add_executable(tromo main.cpp
         map.hpp
         rect.hpp
         dungeon.hpp
-        dungeon.cpp)
+        dungeon.cpp
+        rng.hpp
+        Entity.hpp)
 target_include_directories(tromo PRIVATE ${CURSES_INCLUDE_DIR})
 target_link_libraries(tromo PRIVATE ${CURSES_LIBRARIES})

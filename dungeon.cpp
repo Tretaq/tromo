@@ -5,11 +5,9 @@
 #include <vector>
 
 #include "map.hpp"
-
+#include "rng.hpp"
 namespace {
-    int randInt(std::mt19937& rng, int lo , int hi) {
-        return std::uniform_int_distribution<int>(lo,hi)(rng);
-    }
+
     void carveHorizontal(Map& map, int x1, int x2, int y) {
         map.fillRect(std::min(x1, x2), y, std::abs(x2-x1) + 1, 1 , Tile::Floor);
     }
@@ -27,7 +25,7 @@ namespace {
     }
 }
 
-Point generateDungeon(Map &map, std::mt19937 &rng)
+Dungeon generateDungeon(Map &map, std::mt19937 &rng)
 {
     constexpr int maxRooms = 8;
     constexpr int attempts = 30;
@@ -75,5 +73,5 @@ Point generateDungeon(Map &map, std::mt19937 &rng)
         } while (std::abs(a-b) < 2);
         connect(map, rng, rooms[a].center(), rooms[b].center());
     }
-    return rooms.front().center();
+    return {rooms.front().center(),  rooms};
 }

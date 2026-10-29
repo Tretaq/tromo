@@ -12,4 +12,4 @@ struct Dungeon
     std::vector<Rect> rooms;
 };
 
-Dungeon generateDungeon(Map& map, std::mt19937_64& rng);
+Dungeon generateDungeon(Map& map, std::mt19937& rng);

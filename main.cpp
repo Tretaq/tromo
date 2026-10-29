@@ -4,6 +4,7 @@
 #include <random>
 #include "dungeon.hpp"
 #include "map.hpp"
+#include "world.hpp"
 
 class Terminal {
     public:
@@ -36,6 +37,17 @@ void drawMap(const Map& map) {
         }
     }
 }
+void newLevel(World& world, std::mt19937& rng) {
+    world = World(80,24);
+    Dungeon dungeon = generateDungeon(world.map,rng);
+    world.entities.push_back({dungeon.start.x,dungeon.start.y,'@',"you",20,20 });
+    spawnMonsters(world,dungeon.rooms,rng);
+}
+void drawEntities(const World& world) {
+    for (const Entity&e : world.entities) {
+        mvaddch(e.y,e.x,e.glyph);
+    }
+}
 int main(int argc, char** argv) {
 
     std::random_device rnd;
@@ -49,18 +61,19 @@ int main(int argc, char** argv) {
 
     }
     std::mt19937 rng(seed);
-    Map map(80,24);
+    World world(80,24);
+    newLevel(world,rng);
     Terminal terminal;
-    Point start = generateDungeon(map, rng);
-    int x = start.x;
-    int y = start.y;
+
+
     bool running = true;
 
     while (running) {
         erase();
-        drawMap(map);
-        mvprintw(0,0, "x=%d y=%d seed=%u", x, y, seed);
-        mvaddch(y, x, '@');
+        drawMap(world.map);
+        drawEntities(world);
+        mvprintw(0,0, "x=%d y=%d seed=%u", world.player().x, world.player().y, seed);
+
         refresh();
 
 
@@ -74,13 +87,10 @@ int main(int argc, char** argv) {
             case KEY_DOWN: case 's': case 'j': dy = 1; break;
             case KEY_LEFT: case 'a': case 'h': dx = -1; break;
             case KEY_RIGHT: case 'd': case 'l': dx = 1; break;
-            case 'r': map = Map(80,24);seed = rnd(), rng.seed(seed);map = Map(80,24); start = generateDungeon(map, rng); x = start.x; y = start.y;break;
+            case 'r': seed = rnd(), rng.seed(seed);newLevel(world, rng); break;
             default: break;
         }
-        if (map.isWalkable(x + dx, y + dy)) {
-            x += dx;
-            y += dy;
-        }
+        world.tryMove(world.player(),dx,dy);
     }
     return 0;
 

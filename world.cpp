@@ -25,7 +25,7 @@ bool World::isBlocked(int x, int y) const {
 bool World::tryMove(Entity &e, int dx, int dy) {
     int nx =  e.x + dx;
     int ny = e.y + dy;
-    if (!isBlocked(nx,ny)) {
+    if (isBlocked(nx,ny)) {
         return false;
     }
     e.x = nx;
@@ -43,6 +43,7 @@ namespace {
         {"goblin",'g',7},
         {"orc", 'o', 12},
     };
+}
     void spawnMonsters(World& world, const std::vector<Rect>& rooms, std::mt19937& rng) {
         for (std::size_t i = 1; i < rooms.size(); i++) {
             const Rect& room = rooms[i];
@@ -53,9 +54,9 @@ namespace {
                     continue;
                 }
                 const MonsterType& t = monsterTypes[randInt(rng,0,2)];
-                world.entities.push_back({x,y,t.glyph,t.name,t.hp});
+                world.entities.push_back({x,y,t.glyph,t.name,t.hp, t.hp});
                 break;
             }
         }
     }
-}
+

@@ -16,6 +16,8 @@ add_executable(tromo main.cpp
         entity.hpp
         world.hpp
         world.cpp
+        fov.cpp
+        fov.hpp
 )
 target_include_directories(tromo PRIVATE ${CURSES_INCLUDE_DIR})
 target_link_libraries(tromo PRIVATE ${CURSES_LIBRARIES})

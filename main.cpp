@@ -15,6 +15,10 @@ class Terminal {
         noecho();
         keypad(stdscr, TRUE);
         curs_set(0);
+        init_pair(1,COLOR_RED,COLOR_BLACK);
+        init_pair(2,COLOR_GREEN,COLOR_BLACK);
+        init_pair(3,COLOR_YELLOW,COLOR_BLACK);
+        init_pair(4,COLOR_MAGENTA,COLOR_BLACK);
     }
     ~Terminal() {
         endwin(); // terminal is back to shell state
@@ -45,10 +49,7 @@ void newLevel(World& world, std::mt19937& rng) {
     spawnMonsters(world,dungeon.rooms,rng);
 }
 void drawEntities(const World& world) {
-    init_pair(1,COLOR_RED,COLOR_BLACK);
-    init_pair(2,COLOR_GREEN,COLOR_BLACK);
-    init_pair(3,COLOR_YELLOW,COLOR_BLACK);
-    init_pair(4,COLOR_MAGENTA,COLOR_BLACK);
+
     for (const Entity&e : world.entities) {
         attron(COLOR_PAIR(e.color));
             mvaddch(e.y,e.x,e.glyph);
@@ -94,7 +95,7 @@ int main(int argc, char** argv) {
             case KEY_DOWN: case 's': case 'j': dy = 1; break;
             case KEY_LEFT: case 'a': case 'h': dx = -1; break;
             case KEY_RIGHT: case 'd': case 'l': dx = 1; break;
-            case 'r': seed = rnd(), rng.seed(seed);newLevel(world, rng); break;
+            case 'r': seed = rnd(); rng.seed(seed);newLevel(world, rng); break;
             default: break;
         }
         world.tryMove(world.player(),dx,dy);

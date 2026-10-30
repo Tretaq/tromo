@@ -1,9 +1,7 @@
 #include "dungeon.hpp"
-
 #include <algorithm>
 #include <cstdlib>
 #include <vector>
-
 #include "map.hpp"
 #include "rng.hpp"
 namespace {
@@ -52,7 +50,7 @@ Dungeon generateDungeon(Map &map, std::mt19937 &rng)
         }
         map.fillRect(room.x,room.y,room.w,room.h,Tile::Floor);
 
-        int xw = randInt(rng,x, x + w - watW  );// is water done good?
+        int xw = randInt(rng,x, x + w - watW  );
         int yw = randInt(rng, y, y + h - watH);
         map.fillRect(xw,yw, watW, watH, Tile::Water);
 

@@ -48,7 +48,8 @@ namespace {
     void spawnMonsters(World& world, const std::vector<Rect>& rooms, std::mt19937& rng) {
         for (std::size_t i = 1; i < rooms.size(); i++) {
             const Rect& room = rooms[i];
-            for (int ammount = 1; ammount <= 3; ++ammount)
+            int count = randInt(rng,1,3);
+            for (int ammount = 1; ammount <= count; ++ammount)
             {
 
                 for (int attempt = 0; attempt < 10 ; ++attempt) {
@@ -57,7 +58,7 @@ namespace {
                     if (world.isBlocked(x,y)) {
                         continue;
                     }
-                    const MonsterType& t = monsterTypes[randInt(rng,0,2)];
+                    const MonsterType& t = monsterTypes[randInt(rng,0,static_cast<int>(std::size(monsterTypes))-1)];
                     world.entities.push_back({x,y,t.glyph,t.name,t.hp, t.hp,t.color});
                     break;
                 }

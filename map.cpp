@@ -16,6 +16,10 @@ void Map::set(int x, int y, Tile tile) {
     }
 }
 
+bool Map::isOpaque(int x, int y) const {
+    return !inBounds(x,y) || at(x, y) == Tile::Wall;
+}
+
 bool Map::isWalkable(int x, int y) const {
     return inBounds(x,y) && at(x,y) == Tile::Floor;
 }

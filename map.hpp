@@ -9,7 +9,7 @@ public:
 
     int width() const { return width_; }
     int height() const { return height_; }
-
+    bool isOpaque(int x, int y) const;
     bool inBounds(int x, int y) const;
     Tile at(int x, int y) const;
     void set(int x, int y, Tile tile);

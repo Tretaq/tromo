@@ -16,7 +16,8 @@ private:
     bool inBounds(int x, int y) const;
     int index(int x, int y) const {return y * width_ + x;};
 
-    int width_, height_;
+    int width_;
+    int height_;
     std::vector<char> visible_;
     std::vector<char> explored_;
 };

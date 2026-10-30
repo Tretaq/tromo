@@ -9,4 +9,5 @@ struct Entity
     std::string name;
     int hp;
     int maxHp;
+    int color;
 };

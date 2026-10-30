@@ -41,12 +41,18 @@ void drawMap(const Map& map) {
 void newLevel(World& world, std::mt19937& rng) {
     world = World(80,24);
     Dungeon dungeon = generateDungeon(world.map,rng);
-    world.entities.push_back({dungeon.start.x,dungeon.start.y,'@',"you",20,20 });
+    world.entities.push_back({dungeon.start.x,dungeon.start.y,'@',"you",20,20 , 4});
     spawnMonsters(world,dungeon.rooms,rng);
 }
 void drawEntities(const World& world) {
+    init_pair(1,COLOR_RED,COLOR_BLACK);
+    init_pair(2,COLOR_GREEN,COLOR_BLACK);
+    init_pair(3,COLOR_YELLOW,COLOR_BLACK);
+    init_pair(4,COLOR_MAGENTA,COLOR_BLACK);
     for (const Entity&e : world.entities) {
-        mvaddch(e.y,e.x,e.glyph);
+        attron(COLOR_PAIR(e.color));
+            mvaddch(e.y,e.x,e.glyph);
+        attroff(COLOR_PAIR(e.color));
     }
 }
 int main(int argc, char** argv) {

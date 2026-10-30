@@ -37,11 +37,12 @@ namespace {
         const char* name;
         char glyph;
         int hp;
+        int color;
     };
     constexpr MonsterType monsterTypes[] = {
-        {"rat", 'r',3},
-        {"goblin",'g',7},
-        {"orc", 'o', 12},
+        {"rat", 'r',3,1},
+        {"goblin",'g',7,1},
+        {"orc", 'o', 12,1},
     };
 }
     void spawnMonsters(World& world, const std::vector<Rect>& rooms, std::mt19937& rng) {
@@ -57,7 +58,7 @@ namespace {
                         continue;
                     }
                     const MonsterType& t = monsterTypes[randInt(rng,0,2)];
-                    world.entities.push_back({x,y,t.glyph,t.name,t.hp, t.hp});
+                    world.entities.push_back({x,y,t.glyph,t.name,t.hp, t.hp,t.color});
                     break;
                 }
             }

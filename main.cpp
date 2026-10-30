@@ -10,6 +10,7 @@ class Terminal {
     public:
     Terminal() {
         initscr();
+        start_color();
         cbreak();
         noecho();
         keypad(stdscr, TRUE);

@@ -47,15 +47,19 @@ namespace {
     void spawnMonsters(World& world, const std::vector<Rect>& rooms, std::mt19937& rng) {
         for (std::size_t i = 1; i < rooms.size(); i++) {
             const Rect& room = rooms[i];
-            for (int attempt = 0; attempt < 10 ; ++attempt) {
-                int x = randInt(rng, room.x, room.x + room.w -1);
-                int y = randInt(rng, room.y, room.y + room.h -1);
-                if (world.isBlocked(x,y)) {
-                    continue;
+            for (int ammount = 1; ammount <= 3; ++ammount)
+            {
+
+                for (int attempt = 0; attempt < 10 ; ++attempt) {
+                    int x = randInt(rng, room.x, room.x + room.w -1);
+                    int y = randInt(rng, room.y, room.y + room.h -1);
+                    if (world.isBlocked(x,y)) {
+                        continue;
+                    }
+                    const MonsterType& t = monsterTypes[randInt(rng,0,2)];
+                    world.entities.push_back({x,y,t.glyph,t.name,t.hp, t.hp});
+                    break;
                 }
-                const MonsterType& t = monsterTypes[randInt(rng,0,2)];
-                world.entities.push_back({x,y,t.glyph,t.name,t.hp, t.hp});
-                break;
             }
         }
     }

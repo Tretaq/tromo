@@ -45,6 +45,23 @@ bool Fov::isExplored(int x, int y) const {
 }
 
 Fov Fov::compute(const Map &map, Point origin, int radius) {
-    
+    std::fill(visible_.begin(),visible_.end(), 0);
+    for (int y = origin.y - radius; y <= origin.y + radius; ++y) {
+        for (int x = origin.x - radius; x <= origin.x + radius; ++x) {
+            if (!inBounds(x,y)) {
+                continue;
+            }
+            int dx = x - origin.x;
+            int dy = y - origin.y;
+            if (dx * dx + dy * dy > radius * radius) {
+                continue;
+            }
+            if (hasSight(map,origin.x,origin.y,x,y)) {
+                visible_[index(x, y)] = 1;
+                explored_[index(x, y)] = 1;
+            }
+        }
+    }
+
 }
 

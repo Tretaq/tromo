@@ -35,10 +35,16 @@ char tileIs(Tile tile) {
     }
     return '?';
 }
-void drawMap(const Map& map) {
+void drawMap(const Map& map, const Fov& fov) {
     for (int y = 0; y < map.height(); ++y) {
         for (int x = 0 ; x < map.width(); ++x) {
-            mvaddch(y,x,tileIs(map.at(x, y)));
+            if (fov.isVisible(x, y)) {
+                mvaddch(y,x,tileIs(map.at(x,y)));
+            } else if (fov.isExplored(x,y)) {
+                attron(A_DIM);
+                mvaddch(y,x,tileIs(map.at(x,y)));
+                attroff(A_DIM);
+            }
         }
     }
 }
@@ -51,6 +57,9 @@ void newLevel(World& world, std::mt19937& rng) {
 void drawEntities(const World& world) {
 
     for (const Entity&e : world.entities) {
+        if (!world.fov.isVisible(e.x, e.y)) {
+            continue;
+        }
         attron(COLOR_PAIR(e.color));
             mvaddch(e.y,e.x,e.glyph);
         attroff(COLOR_PAIR(e.color));
@@ -77,8 +86,9 @@ int main(int argc, char** argv) {
     bool running = true;
 
     while (running) {
+        world.updateFov();
         erase();
-        drawMap(world.map);
+        drawMap(world.map,world.fov);
         drawEntities(world);
         mvprintw(0,0, "x=%d y=%d seed=%u", world.player().x, world.player().y, seed);
 

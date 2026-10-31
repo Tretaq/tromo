@@ -32,6 +32,12 @@ bool World::tryMove(Entity &e, int dx, int dy) {
     e.y = ny;
     return true;
 }
+
+void World::updateFov() {
+    constexpr int radius = 8;
+    fov.compute(map, {player().x, player().y}, radius);
+}
+
 namespace {
     struct MonsterType {
         const char* name;

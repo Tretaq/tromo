@@ -17,6 +17,6 @@ struct World {
     Entity* entityAt(int x, int y);
     bool isBlocked(int x, int y) const;
     bool tryMove(Entity& e, int dx, int dy);
-    void updateFov();
+    void updateFov(int radius);
 };
 void spawnMonsters(World& world, const std::vector<Rect>& room, std::mt19937& rng);

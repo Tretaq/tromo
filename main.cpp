@@ -81,19 +81,17 @@ int main(int argc, char** argv) {
     World world(80,24);
     newLevel(world,rng);
     Terminal terminal;
-
+    int radiusOfSight = 8;
 
     bool running = true;
 
     while (running) {
-        world.updateFov();
+        world.updateFov(radiusOfSight);
         erase();
         drawMap(world.map,world.fov);
         drawEntities(world);
-        mvprintw(0,0, "x=%d y=%d seed=%u", world.player().x, world.player().y, seed);
-
+        mvprintw(0,0, "x=%d y=%d seed=%u radius=%d", world.player().x, world.player().y, seed,radiusOfSight);
         refresh();
-
 
         int key = getch();
 
@@ -105,9 +103,12 @@ int main(int argc, char** argv) {
             case KEY_DOWN: case 's': case 'j': dy = 1; break;
             case KEY_LEFT: case 'a': case 'h': dx = -1; break;
             case KEY_RIGHT: case 'd': case 'l': dx = 1; break;
+            case '=': radiusOfSight++; break;
+            case '-': radiusOfSight--;  break;
             case 'r': seed = rnd(); rng.seed(seed);newLevel(world, rng); break;
             default: break;
         }
+        radiusOfSight = std::clamp(radiusOfSight, 2, 16);
         world.tryMove(world.player(),dx,dy);
     }
     return 0;

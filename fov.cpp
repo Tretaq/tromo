@@ -37,14 +37,14 @@ bool Fov::inBounds(int x, int y) const {
 }
 
 bool Fov::isVisible(int x, int y) const {
-    return inBounds(x, y) && explored_[index(x, y)];
+    return inBounds(x, y) && visible_[index(x, y)];
 }
 
 bool Fov::isExplored(int x, int y) const {
     return inBounds(x, y) && explored_[index(x, y)];
 }
 
-Fov Fov::compute(const Map &map, Point origin, int radius) {
+void Fov::compute(const Map &map, Point origin, int radius) {
     std::fill(visible_.begin(),visible_.end(), 0);
     for (int y = origin.y - radius; y <= origin.y + radius; ++y) {
         for (int x = origin.x - radius; x <= origin.x + radius; ++x) {

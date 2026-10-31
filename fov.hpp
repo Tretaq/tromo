@@ -7,7 +7,7 @@ class Fov
 public:
     Fov(int width, int height);
 
-    Fov compute(const Map& map, Point origin, int radius);
+    void compute(const Map& map, Point origin, int radius);
 
     bool isVisible(int x, int y) const;
     bool isExplored(int x, int y) const;

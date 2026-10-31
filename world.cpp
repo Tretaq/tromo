@@ -33,8 +33,7 @@ bool World::tryMove(Entity &e, int dx, int dy) {
     return true;
 }
 
-void World::updateFov() {
-    constexpr int radius = 8;
+void World::updateFov(int radius) {
     fov.compute(map, {player().x, player().y}, radius);
 }
 

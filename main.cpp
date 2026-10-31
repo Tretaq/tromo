@@ -106,6 +106,7 @@ int main(int argc, char** argv) {
             case '=': radiusOfSight++; break;
             case '-': radiusOfSight--;  break;
             case 'r': seed = rnd(); rng.seed(seed);newLevel(world, rng); break;
+            case 'm': world.ShowAll(); break;
             default: break;
         }
         radiusOfSight = std::clamp(radiusOfSight, 2, 16);

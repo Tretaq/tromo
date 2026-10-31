@@ -35,14 +35,18 @@ Fov::Fov(int width, int height): width_(width),height_(height),visible_(width * 
 bool Fov::inBounds(int x, int y) const {
     return x >= 0 && x < width_ && y >= 0 && y < height_;
 }
-
+void Fov::togRevealAll() {
+    revealAll_ = !revealAll_;
+}
 bool Fov::isVisible(int x, int y) const {
-    return inBounds(x, y) && visible_[index(x, y)];
+    return inBounds(x, y) && (revealAll_ || visible_[index(x, y)]);
 }
 
 bool Fov::isExplored(int x, int y) const {
     return inBounds(x, y) && explored_[index(x, y)];
 }
+
+
 
 void Fov::compute(const Map &map, Point origin, int radius) {
     std::fill(visible_.begin(),visible_.end(), 0);

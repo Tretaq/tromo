@@ -12,10 +12,12 @@ public:
     bool isVisible(int x, int y) const;
     bool isExplored(int x, int y) const;
 
+    void togRevealAll();
+
 private:
     bool inBounds(int x, int y) const;
     int index(int x, int y) const {return y * width_ + x;};
-
+    bool revealAll_ = false;
     int width_;
     int height_;
     std::vector<char> visible_;

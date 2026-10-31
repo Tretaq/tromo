@@ -37,6 +37,10 @@ void World::updateFov(int radius) {
     fov.compute(map, {player().x, player().y}, radius);
 }
 
+void World::ShowAll() {
+    fov.togRevealAll();
+}
+
 namespace {
     struct MonsterType {
         const char* name;

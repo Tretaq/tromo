@@ -20,6 +20,7 @@ add_executable(tromo main.cpp
         fov.hpp
         ai.cpp
         ai.hpp
+        colors.hpp
 )
 target_include_directories(tromo PRIVATE ${CURSES_INCLUDE_DIR})
 target_link_libraries(tromo PRIVATE ${CURSES_LIBRARIES})

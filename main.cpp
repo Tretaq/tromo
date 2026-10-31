@@ -6,6 +6,7 @@
 #include "map.hpp"
 #include "world.hpp"
 #include "ai.hpp"
+#include "colors.hpp"
 class Terminal {
     public:
     Terminal() {
@@ -51,7 +52,7 @@ void drawMap(const Map& map, const Fov& fov) {
 void newLevel(World& world, std::mt19937& rng) {
     world = World(80,24);
     Dungeon dungeon = generateDungeon(world.map,rng);
-    world.entities.push_back({dungeon.start.x,dungeon.start.y,'@',"you",20,20 , 4});
+    world.entities.push_back({dungeon.start.x,dungeon.start.y,'@',"you",20,20 , ColMagenta,4, 0});
     spawnMonsters(world,dungeon.rooms,rng);
 }
 void drawEntities(const World& world) {
@@ -84,7 +85,7 @@ int main(int argc, char** argv) {
     int radiusOfSight = 8;
 
     bool running = true;
-    bool acted = false;;
+
     while (running) {
 
         erase();
@@ -94,7 +95,7 @@ int main(int argc, char** argv) {
         refresh();
 
         int key = getch();
-
+        bool acted = false;;
         int dx = 0;
         int dy = 0;
         switch (key) {

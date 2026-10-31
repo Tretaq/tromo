@@ -1,4 +1,8 @@
 #include "world.hpp"
+
+#include <algorithm>
+
+#include "colors.hpp"
 #include "rng.hpp"
 
 Entity *World::entityAt(int x, int y) {
@@ -8,6 +12,31 @@ Entity *World::entityAt(int x, int y) {
         }
     }
     return nullptr;
+}
+
+void World::say(std::string text, int color) {
+    log.push_back({std::move(text), color});
+    if (log.size() > 100) {
+        log.erase(log.begin());
+    }
+}
+
+bool World::playerDead() const {
+    return player().hp <= 0;
+}
+
+void World::removeDeadMonsters() {
+    entities.erase(
+        std::remove_if(entities.begin() + 1, entities.end(),[](const Entity& e){ return e.hp <= 0;}),
+        entities.end());
+}
+
+void World::endTurn() {
+    ++turn;
+    Entity& p = player();
+    if (turn % 10 == 0 && p.hp < p.maxHp) {
+        ++p.hp;
+    }
 }
 
 bool World::isBlocked(int x, int y) const {
@@ -47,11 +76,13 @@ namespace {
         char glyph;
         int hp;
         int color;
+        int attack;
+        int defense;
     };
     constexpr MonsterType monsterTypes[] = {
-        {"rat", 'r',3,1},
-        {"goblin",'g',7,1},
-        {"orc", 'o', 12,1},
+        {"rat", 'r',3,ColRed, 1, 0},
+        {"goblin",'g',7,ColRed, 2, 0},
+        {"orc", 'o', 12,ColRed, 3,1},
     };
 }
     void spawnMonsters(World& world, const std::vector<Rect>& rooms, std::mt19937& rng) {
@@ -68,7 +99,7 @@ namespace {
                         continue;
                     }
                     const MonsterType& t = monsterTypes[randInt(rng,0,static_cast<int>(std::size(monsterTypes))-1)];
-                    world.entities.push_back({x,y,t.glyph,t.name,t.hp, t.hp,t.color});
+                    world.entities.push_back({x,y,t.glyph,t.name,t.hp, t.hp,t.color,t.attack,t.defense});
                     break;
                 }
             }

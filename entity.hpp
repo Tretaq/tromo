@@ -10,4 +10,6 @@ struct Entity
     int hp;
     int maxHp;
     int color;
+    int attack;
+    int defense;
 };

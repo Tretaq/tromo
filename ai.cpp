@@ -56,7 +56,14 @@ void monstersTakeTurn(World &world) {
                 continue;
             }
             int nd = dist[ny * w + nx];
-            if (nd != -1)
+            if (nd != -1 && nd < bestDist) {
+                bestDist = nd;
+                bestDx = d[0];
+                bestDy = d[1];
+            }
+        }
+        if (bestDx != 0 || bestDy != 0) {
+            world.tryMove(m,bestDx,bestDy);
         }
 
     }

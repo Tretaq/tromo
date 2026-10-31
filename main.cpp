@@ -5,7 +5,7 @@
 #include "dungeon.hpp"
 #include "map.hpp"
 #include "world.hpp"
-
+#include "ai.hpp"
 class Terminal {
     public:
     Terminal() {
@@ -84,9 +84,9 @@ int main(int argc, char** argv) {
     int radiusOfSight = 8;
 
     bool running = true;
-
+    bool acted = false;;
     while (running) {
-        world.updateFov(radiusOfSight);
+
         erase();
         drawMap(world.map,world.fov);
         drawEntities(world);
@@ -107,10 +107,18 @@ int main(int argc, char** argv) {
             case '-': radiusOfSight--;  break;
             case 'r': seed = rnd(); rng.seed(seed);newLevel(world, rng); break;
             case 'm': world.ShowAll(); break;
+            case '.': case ' ': acted = true; break;
             default: break;
+
         }
         radiusOfSight = std::clamp(radiusOfSight, 2, 16);
-        world.tryMove(world.player(),dx,dy);
+        if (dx != 0 || dy != 0) {
+            acted = world.tryMove(world.player(),dx,dy);
+        }
+        if (acted) {
+            world.updateFov(radiusOfSight);
+            monstersTakeTurn(world);
+        }
     }
     return 0;
 

@@ -21,6 +21,8 @@ add_executable(tromo main.cpp
         ai.cpp
         ai.hpp
         colors.hpp
+        combat.cpp
+        combat.hpp
 )
 target_include_directories(tromo PRIVATE ${CURSES_INCLUDE_DIR})
 target_link_libraries(tromo PRIVATE ${CURSES_LIBRARIES})

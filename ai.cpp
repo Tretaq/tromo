@@ -3,6 +3,8 @@
 #include <queue>
 #include <vector>
 
+#include "combat.hpp"
+
 namespace {
     constexpr int dirs[4][2] = {{0, -1}, {0, 1},{ -1 , 0}, { 1, 0} };
 
@@ -35,18 +37,26 @@ namespace {
     }
 }
 
-void monstersTakeTurn(World &world) {
+void monstersTakeTurn(World &world,std::mt19937& rng) {
     Point playerPos{world.player().x , world.player().y};
     std::vector<int> dist = distanceMap(world.map, playerPos);
     const int w = world.map.width();
 
     for (std::size_t i = 1 ; i < world.entities.size(); ++i) {
+        if (world.playerDead())
+        {
+            break;
+        }
         Entity& m = world.entities[i];
-
         if (!world.fov.isVisible(m.x,m.y)) {
             continue;
         }
         int bestDist = dist[m.y * w + m.x];
+        if (bestDist == 1)
+        {
+            performAttack(world, m, world.player(), rng);
+            continue;
+        }
         int bestDx = 0;
         int bestDy = 0;
         for (const auto& d : dirs) {

@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
         }
         if (acted) {
             world.updateFov(radiusOfSight);
-            monstersTakeTurn(world);
+            monstersTakeTurn(world, rng);
         }
     }
     return 0;

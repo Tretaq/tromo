@@ -7,6 +7,8 @@
 #include "world.hpp"
 #include "ai.hpp"
 #include "colors.hpp"
+#include "combat.hpp"
+
 class Terminal {
     public:
     Terminal() {
@@ -126,9 +128,24 @@ int main(int argc, char** argv) {
     while (running) {
 
         world.updateFov(radiusOfSight);
-        drawFrame()
+        drawFrame(world,seed,radiusOfSight);
+        if (!world.hits.empty()) {
+            const attr_t flash = COLOR_PAIR(ColYellow) | A_BOLD;
+            attron(flash);
+            for (const Point& p : world.hits) {
+                mvaddch(p.y , p.x, '*');
+            }
+            attroff(flash);
+            refresh();
+            napms(90);
+            world.hits.clear();
+            drawFrame(world, seed, radiusOfSight);
+        }
 
         int key = getch();
+        if (world.playerDead() && key != 'q' && key != 'r') {
+            continue;
+        }
         bool acted = false;;
         int dx = 0;
         int dy = 0;
@@ -148,11 +165,13 @@ int main(int argc, char** argv) {
         }
         radiusOfSight = std::clamp(radiusOfSight, 2, 16);
         if (dx != 0 || dy != 0) {
-            acted = world.tryMove(world.player(),dx,dy);
+            acted = playerMoveOrAttack(world,dx,dy,rng);
         }
         if (acted) {
+            world.removeDeadMonsters();
             world.updateFov(radiusOfSight);
-            monstersTakeTurn(world, rng);
+            monstersTakeTurn(world,rng);
+            world.endTurn();
         }
     }
     return 0;

@@ -38,3 +38,6 @@ _deps/
 *.out
 *.app
 *.dSYM/
+cmake-build-*/
+build/
+.idea/

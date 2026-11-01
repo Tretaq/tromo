@@ -48,3 +48,13 @@ Your terminal needs to be big enough for you to play it, otherwise you won't see
 | `q` | Quit |
 
 Going into a wall, or using 'm', '=', '-', 'r', does not use up a turn.
+
+## Just try it! 
+
+```shell
+git clone https://github.com/Tretaq/tromo.git
+cd tromo
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Relase
+cmake --build build -j
+./build/tromo
+```

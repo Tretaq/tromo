@@ -26,3 +26,13 @@ add_executable(tromo main.cpp
 )
 target_include_directories(tromo PRIVATE ${CURSES_INCLUDE_DIR})
 target_link_libraries(tromo PRIVATE ${CURSES_LIBRARIES})
+
+target_link_options(tromo PRIVATE -static-libstdc++ -static-libgcc)
+
+install(TARGETS tromo RUNTIME DESTINATION .)
+install(FILES README.md DESTINATION . OPTIONAL)
+
+set(CPACK_GENERATOR "ZIP")
+set(CPACK_PACKAGE_NAME "tromo")
+set(CPACK_PACKAGE_FILE_NAME "tromo-linux-x86_64")
+include(CPack)

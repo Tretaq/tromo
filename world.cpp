@@ -30,7 +30,10 @@ void World::removeDeadMonsters() {
         std::remove_if(entities.begin() + 1, entities.end(),[](const Entity& e){ return e.hp <= 0;}),
         entities.end());
 }
+void drawHud(const World& world)
+{
 
+}
 void World::endTurn() {
     ++turn;
     Entity& p = player();

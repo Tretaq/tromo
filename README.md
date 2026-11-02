@@ -58,3 +58,9 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Relase
 cmake --build build -j
 ./build/tromo
 ```
+## TO DO 
+- Items 
+- More monsters
+- make it more scarry
+- levels
+- classes? 

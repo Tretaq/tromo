@@ -79,9 +79,9 @@ namespace {
         int defense;
     };
     constexpr MonsterType monsterTypes[] = {
-        {"rat", 'r',3,ColRed, 1, 0},
-        {"goblin",'g',7,ColRed, 2, 0},
-        {"orc", 'o', 12,ColRed, 3,1},
+        {"Rat", 'r',3,ColRed, 1, 0},
+        {"Goblin",'g',7,ColRed, 2, 0},
+        {"Orc", 'o', 12,ColRed, 3,1},
     };
 }
     void spawnMonsters(World& world, const std::vector<Rect>& rooms, std::mt19937& rng) {
